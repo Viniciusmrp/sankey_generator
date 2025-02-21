@@ -14,6 +14,9 @@ export default function SankeyDiagram({ data }: SankeyDiagramProps) {
   useEffect(() => {
     if (!chartRef.current) return
 
+    // Store ref value in a variable to fix the exhaustive-deps warning
+    const currentRef = chartRef.current
+
     const trace = {
       type: "sankey",
       orientation: "h",
@@ -40,11 +43,11 @@ export default function SankeyDiagram({ data }: SankeyDiagramProps) {
       height: 600
     }
 
-    Plotly.newPlot(chartRef.current, [trace], layout)
+    Plotly.newPlot(currentRef, [trace], layout)
 
     return () => {
-      if (chartRef.current) {
-        Plotly.purge(chartRef.current)
+      if (currentRef) {
+        Plotly.purge(currentRef)
       }
     }
   }, [data])
